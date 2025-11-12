@@ -1,0 +1,2 @@
+# No external packages required. Tkinter is part of the Python standard library on Windows.
+# If you run into missing tkinter, install a Python distribution that includes it.
