@@ -3,3 +3,9 @@
 cd /Users/youruser/Document/AtnaTestFlow  # adjust path if different  
 python3 -m pip install -r requirements.txt  
 python3 -m PyInstaller --onefile --windowed --name AtnaTestFlow main.py
+
+# How to rebuild
+
+cd /Users/khangnguyen/Document/AtnaTestFlow  
+rm -rf build dist AtnaTestFlow.spec  
+python3 -m PyInstaller --onefile --windowed --name AtnaTestFlow main.py
