@@ -155,7 +155,6 @@ class TemplateGUI(tk.Tk):
     def show_test_steps(self, steps, pds_files):
         def step_seperator():
             self.append_log("|")
-            self.append_log("V")
         self.append_log("")
         self.append_log("===================================")
         self.append_log("")
