@@ -37,7 +37,7 @@ def get_material_size(part_number):
     for i in range(len(part_number)):
         char = part_number[i]
         if char.isalpha():
-            if char == 'A' or char == 'B' or char == 'C':
+            if char == 'A' or char == 'B' or char == 'P':
                 return map_size[char]
     return 'Unknown Size'
 
