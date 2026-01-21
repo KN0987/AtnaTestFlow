@@ -2,6 +2,7 @@ import threading
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
+import os
 
 import AtnaTestFlow as testflow
 
@@ -9,8 +10,16 @@ import AtnaTestFlow as testflow
 class TemplateGUI(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Template Generation")
+        self.title("Atna Test Flow")
         self.geometry("700x450")
+        
+        # Set window icon if it exists
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon.ico')
+        if os.path.exists(icon_path):
+            try:
+                self.iconbitmap(icon_path)
+            except Exception:
+                pass  # Icon not available, continue without it
 
         # Part number input
         frame = tk.Frame(self)
@@ -58,8 +67,6 @@ class TemplateGUI(tk.Tk):
 
         # disable UI while running
         self.generate_btn.config(state="disabled")
-        self.status_var.set("Running...")
-        self.append_log(f"Starting generation for: {part}")
 
         short_part = part[3:7]
         
@@ -74,8 +81,6 @@ class TemplateGUI(tk.Tk):
                 
                 part_to_find_size = part[part.find('-'):]
                 material_size = testflow.get_material_size(part_to_find_size)
-                print(part_to_find_size)
-                print(material_size)
                 
                 material_code = []
                 map_material_size = {'2016': 'P', '2520': 'A', '3225': 'B'}
@@ -85,8 +90,6 @@ class TemplateGUI(tk.Tk):
                         raise ValueError(f"Unknown material size: {material_size}")
                     material_code.append(f"{material}-{suffix}")
                 
-                print(material_code)
-
                 has_saunders = False
                 if "Saunders" in test_steps:
                     has_saunders = True
@@ -134,17 +137,38 @@ class TemplateGUI(tk.Tk):
 
     def show_results(self, results):
         self.generate_btn.config(state="normal")
+        self.clear_log()
+        
         if "error" in results:
             self.append_log("Error: " + results["error"])
             self.status_var.set("Error")
             return
 
         self.append_log("Material Code: " + str(results['material_code']))
-        self.append_log("Material Size: " + str(results['material_size']))
+        self.append_log("Socket Size: " + str(results['material_size']))
         self.append_log(f"Test Program Path: {results['test_program_path']}")
-        self.append_log(f"Test Steps: {results['test_steps']}")
         self.append_log(f"PDS: {results['pds_type']}")
-        self.append_log(f"Is Automative: {results['is_automative']}")
-        self.append_log(f"PDS Files: {results['pds_file']}")
-        
+        self.show_test_steps(results['test_steps'], results['pds_file'])
+             
         self.status_var.set("Ready")
+    
+    def show_test_steps(self, steps, pds_files):
+        def step_seperator():
+            self.append_log("|")
+            self.append_log("V")
+        self.append_log("")
+        self.append_log("===================================")
+        self.append_log("")
+        self.append_log("Test Steps:")
+        self.append_log("")
+        j = 0
+        for i in range(len(steps)):
+            if steps[i] != "Saunders" and steps[i] != "Helium Bake":
+                self.append_log(f"Step {i+1} - {steps[i]} ({pds_files[j]})")
+                j += 1
+            elif steps[i] == "Saunders":
+                self.append_log(f"Step {i+1} - {steps[i]} - (Master Branch)")
+            elif steps[i] == "Helium Bake":
+                self.append_log(f"Step {i+1} - {steps[i]} - (16 Hours, 45 PSI)")
+            if i != len(steps) - 1:
+                step_seperator()
