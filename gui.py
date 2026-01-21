@@ -62,6 +62,7 @@ class TemplateGUI(tk.Tk):
         self.append_log(f"Starting generation for: {part}")
 
         short_part = part[3:7]
+        
 
         def worker():
             try:
@@ -69,6 +70,22 @@ class TemplateGUI(tk.Tk):
                 test_steps = testflow.get_test_steps(short_part)
                 pds_type = testflow.get_pds(short_part)
                 is_automative = testflow.isPartAutomative(short_part)
+                material_version = testflow.get_material_version(short_part)
+                
+                part_to_find_size = part[part.find('-'):]
+                material_size = testflow.get_material_size(part_to_find_size)
+                print(part_to_find_size)
+                print(material_size)
+                
+                material_code = []
+                map_material_size = {'2016': 'P', '2520': 'A', '3225': 'B'}
+                for material in material_version:
+                    suffix = map_material_size.get(str(material_size))
+                    if not suffix:
+                        raise ValueError(f"Unknown material size: {material_size}")
+                    material_code.append(f"{material}-{suffix}")
+                
+                print(material_code)
 
                 has_saunders = False
                 if "Saunders" in test_steps:
@@ -99,12 +116,13 @@ class TemplateGUI(tk.Tk):
                                 pds_file.append(f"{pds_type}_qa.pds")
 
                 results = {
-                    "short_part": short_part,
                     "test_program_path": test_program_path,
                     "test_steps": test_steps,
                     "pds_type": pds_type,
                     "is_automative": is_automative,
                     "pds_file": pds_file,
+                    "material_code": material_code,
+                    "material_size": material_size
                 }
             except Exception as e:
                 results = {"error": str(e)}
@@ -121,10 +139,12 @@ class TemplateGUI(tk.Tk):
             self.status_var.set("Error")
             return
 
-        self.append_log(f"Short Part: {results['short_part']}")
+        self.append_log("Material Code: " + str(results['material_code']))
+        self.append_log("Material Size: " + str(results['material_size']))
         self.append_log(f"Test Program Path: {results['test_program_path']}")
         self.append_log(f"Test Steps: {results['test_steps']}")
         self.append_log(f"PDS: {results['pds_type']}")
         self.append_log(f"Is Automative: {results['is_automative']}")
         self.append_log(f"PDS Files: {results['pds_file']}")
+        
         self.status_var.set("Ready")

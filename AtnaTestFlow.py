@@ -12,9 +12,10 @@ map_pds_to_part = {
 
 
 map_material_to_part = {
-    "9375A-P": ["9356", "9357", "9551", "9396"],
-    "9375B-P": ["9505"],
-    "Standard": ["9371", "9375", "9376", "9377", "9501", "9505", "9507"]
+    "9375A": ["9356", "9357", "9371", "9375", "9376", "9377", "9396"],
+    "9375B": ["9356", "9357", "9371", "9375", "9376", "9377", "9396", "9505", "9504", "9507"],
+    "9501A": ["9501", "9551"], 
+     "9501B": ["9501", "9551"]
 }
 
 
@@ -22,6 +23,23 @@ endura_part_numbers = ["9356", "9357", "9551"]
 automative_part_numbers = ["9396", "9397", "9398"]
 test_steps = ["FT0", "Helium Bake", "Post HE", "Saunders", "QA"]
 
+def get_material_version(part_number):
+    output = set()
+    for material, parts in map_material_to_part.items():
+        if part_number in parts:
+             output.add(material)
+    if len(output) >= 1:
+        return output
+    return "Can't Read Part Number"
+
+def get_material_size(part_number):
+    map_size = { 'P': '2016', 'A' : 2520, 'B' : 3225}
+    for i in range(len(part_number)):
+        char = part_number[i]
+        if char.isalpha():
+            if char == 'A' or char == 'B' or char == 'C':
+                return map_size[char]
+    return 'Unknown Size'
 
 def get_test_program_path(part_number):
     for path, parts in map_test_program_to_part.items():

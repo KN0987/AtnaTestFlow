@@ -1,2 +1,12 @@
-# No external packages required. Tkinter is part of the Python standard library on Windows.
-# If you run into missing tkinter, install a Python distribution that includes it.
+# AtnaTestFlow Dependencies
+# The application uses only Python standard library modules
+
+# Standard library modules used:
+# - tkinter (GUI framework)
+# - threading (background task execution)
+
+# Note: 
+# - tkinter is included with Python on Windows and macOS
+# - On Linux, install via: sudo apt-get install python3-tk (Debian/Ubuntu)
+#                         or: sudo yum install python3-tkinter (RedHat/CentOS)
+# - threading is part of Python standard library (no separate installation needed)
