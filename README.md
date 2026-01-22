@@ -7,5 +7,6 @@ python3 -m PyInstaller --onefile --windowed --name AtnaTestFlow main.py
 # How to rebuild
 
 cd /Users/khangnguyen/Document/AtnaTestFlow  
-rm -rf build dist AtnaTestFlow.spec  
+For Mac/Linux: rm -rf build dist AtnaTestFlow.spec  
+For Window: Remove-Item -Recurse -Force build, dist, *.spec  
 python3 -m PyInstaller --onefile --windowed --name AtnaTestFlow main.py
