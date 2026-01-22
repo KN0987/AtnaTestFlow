@@ -4,7 +4,7 @@ map_test_program_to_part = {
     "S:\\ets\\apps\\ATNA_8_0_x8_VS15_SCONLY": ["9356", "9357", "9551", "9396", "9505", "9504"],
     "E:\\ets\\apps\\ATNA_ENG_7_1_1_x8_VS15": ["9501"],
     "E:\\ets\\apps\\ATNA_ENG_7_5_x8_VS15": ["9371", "9375", "9376", "9377"],
-    "S:\\ets\\apps\\ATNA_10_0_x8_VS15_ENG_Final_C": ["9507"]
+    "S:\\ets\\apps\\ATNA_10_0_x8_VS15_ENG_Final_C_QUAD": ["9507"]
 }
 
 map_pds_to_part = {
