@@ -11,7 +11,7 @@ class TemplateGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Atna Test Flow")
-        self.geometry("700x450")
+        self.geometry("800x500")
         
         # Set window icon if it exists
         icon_path = os.path.join(os.path.dirname(__file__), 'icon.ico')
