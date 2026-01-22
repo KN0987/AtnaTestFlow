@@ -117,7 +117,10 @@ class TemplateGUI(tk.Tk):
                 else:
                     for step in test_steps:
                         if step == "FT0":
-                            pds_file.append(f"{pds_type}_ft.pds")
+                            if short_part == '9371':
+                                pds_file.append(f"{pds_type}_ft_sit9371.pds")
+                            else:
+                                pds_file.append(f"{pds_type}_ft.pds")
                         elif step == "Post HE":
                             pds_file.append(f"{pds_type}_posthe.pds")
                         elif step == "QA":
