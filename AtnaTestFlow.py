@@ -1,3 +1,5 @@
+valid_part_number = ["9356", "9357", "9551", "9371", "9375", "9376", "9377", "9396", "9501", "9504", "9505", "9507"]
+
 map_test_program_to_part = {
     "S:\\ets\\apps\\ATNA_8_0_x8_VS15_SCONLY": ["9356", "9357", "9551", "9396", "9505", "9504"],
     "E:\\ets\\apps\\ATNA_ENG_7_1_1_x8_VS15": ["9501"],
@@ -23,6 +25,11 @@ map_material_to_part = {
 endura_part_numbers = ["9356", "9357", "9551"]
 automative_part_numbers = ["9396", "9397", "9398"]
 test_steps = ["FT0", "Helium Bake", "Post HE", "Saunders", "QA"]
+
+def check_valid_part_number(part_number):
+    if part_number[0:3] != 'SIT':
+        return False
+    return part_number[3:7] in valid_part_number
 
 def get_material_version(part_number):
     output = set()

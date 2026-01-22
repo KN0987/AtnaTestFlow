@@ -40,7 +40,12 @@ class TemplateGUI(tk.Tk):
         results_frame.pack(fill="both", expand=True, padx=10, pady=(0, 10))
 
         tk.Label(results_frame, text="Output:").pack(anchor="w")
-        self.log = scrolledtext.ScrolledText(results_frame, state="normal", wrap="word")
+        self.log = scrolledtext.ScrolledText(
+            results_frame,
+            state="normal",
+            wrap="word",
+            highlightthickness=0,
+        )
         self.log.pack(fill="both", expand=True)
 
         # Status bar
@@ -60,7 +65,7 @@ class TemplateGUI(tk.Tk):
         self.log.configure(state="disabled")
 
     def on_generate(self):
-        part = self.part_entry.get().strip()
+        part = self.part_entry.get().strip().upper()
         if not part or len(part) < 7:
             messagebox.showerror("Input error", "Please enter a valid part number (at least 7 chars). Example: 'XXX9356YYY'")
             return
@@ -73,6 +78,9 @@ class TemplateGUI(tk.Tk):
 
         def worker():
             try:
+                if not testflow.check_valid_part_number(part):
+                    raise ValueError("Invalid part number.")
+                
                 test_program_path = testflow.get_test_program_path(short_part)
                 test_steps = testflow.get_test_steps(short_part)
                 pds_type = testflow.get_pds(short_part)
